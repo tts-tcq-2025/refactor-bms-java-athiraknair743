@@ -3,16 +3,24 @@ package vitals;
 
 public abstract class VitalsChecker {
     static boolean vitalsOk(float temperature, float pulseRate, float spo2) throws InterruptedException {
-        if (!isTemperatureNormal(temperature)) {
-            return handleError("Temperature is critical!");
-        }
-        if (!isPulseRateNormal(pulseRate)) {
-            return handleError("Pulse Rate is out of range!");
-        }
-        if (!isSpo2Normal(spo2)) {
-             return handleError("Oxygen Saturation out of range!");
+        String errorMessage = checkVitals(temperature, pulseRate, spo2);
+        if (null != errorMessage) {
+            return handleError(errorMessage);
         }
         return true;
+    }
+
+    private static String checkVitals(float temperature, float pulseRate, float spo2) {
+        if (!isTemperatureNormal(temperature)) {
+            return "Temperature is critical!";
+        }
+        if (!isPulseRateNormal(pulseRate)) {
+            return "Pulse Rate is out of range!";
+        }
+        if (!isSpo2Normal(spo2)) {
+            return "Oxygen Saturation out of range!";
+        }
+        return null;
     }
 
     private static boolean isTemperatureNormal(float temperature) {
@@ -37,8 +45,8 @@ public abstract class VitalsChecker {
     }
 
     private static boolean handleError(String message) throws InterruptedException {
-    System.out.println(message);
-    displayAlertAnimation();
-    return false;
-  }
+        System.out.println(message);
+        displayAlertAnimation();
+        return false;
+    }
 }
