@@ -1,4 +1,4 @@
-package vitals;
+package vitals; 
 
 
 public abstract class VitalsChecker {
@@ -10,7 +10,7 @@ public abstract class VitalsChecker {
             return handleError("Pulse Rate is out of range!");
         }
         if (!isSpo2Normal(spo2)) {
-            return handleError("Oxygen Saturation out of range!");
+             return handleError("Oxygen Saturation out of range!");
         }
         return true;
     }
@@ -27,7 +27,7 @@ public abstract class VitalsChecker {
         return spo2 >= 90;
     }
 
-    private static void showAlertAnimation() throws InterruptedException {
+    private static void displayAlertAnimation() throws InterruptedException {
         for (int i = 0; i < 6; i++) {
             System.out.print("\r* ");
             Thread.sleep(1000);
@@ -36,10 +36,9 @@ public abstract class VitalsChecker {
         }
     }
 
-    private static boolean handleError(String errorMessage) throws InterruptedException {
-        System.out.println(errorMessage);
-        showAlertAnimation();
-        return false;
-    }
-
+    private static boolean handleError(String message) throws InterruptedException {
+    System.out.println(message);
+    displayAlertAnimation();
+    return false;
+  }
 }
