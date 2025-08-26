@@ -1,14 +1,27 @@
 package vitals; 
 
 
+
 public abstract class VitalsChecker {
     static boolean vitalsOk(float temperature, float pulseRate, float spo2) throws InterruptedException {
+        displayWarnings(temperature, pulseRate, spo2); // <-- early warning
         String errorMessage = checkVitals(temperature, pulseRate, spo2);
         if (null != errorMessage) {
             return handleError(errorMessage);
         }
         return true;
     }
+
+    private static void displayWarnings(float temperature, float pulseRate, float spo2) {
+    // Temperature warning
+    checkWarning("Temperature", temperature, 95, 102, "hypothermia", "hyperthermia");
+
+    // Pulse rate warning
+    checkWarning("Pulse Rate", pulseRate, 60, 100, "low pulse rate", "high pulse rate");
+
+      // SPO2 warnings (only lower limit)
+    checkWarning("Oxygen Saturation", spo2, 90, 100, "low oxygen saturation", null);
+}
 
     private static String checkVitals(float temperature, float pulseRate, float spo2) {
         if (!isTemperatureNormal(temperature)) {
@@ -49,4 +62,16 @@ public abstract class VitalsChecker {
         displayAlertAnimation();
         return false;
     }
+
+    private static void checkWarning(String vitalName, float value, float lower, float upper, String lowerWarningMsg, String upperWarningMsg) {
+    float tolerance = 0.015f * upper;
+
+    if (value >= lower && value <= lower + tolerance) {
+        System.out.println("Warning: Approaching " + lowerWarningMsg);
+    }
+
+    if (upperWarningMsg != null && value <= upper && value >= upper - tolerance) {
+        System.out.println("Warning: Approaching " + upperWarningMsg);
+    }
+}
 }
