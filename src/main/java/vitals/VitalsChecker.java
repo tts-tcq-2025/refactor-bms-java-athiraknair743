@@ -53,10 +53,18 @@ public abstract class VitalsChecker {
     private static Condition getCondition(float value, VitalRange range) {
         float tolerance = 0.015f * range.upper; // 1.5% of upper limit
 
-        if (value < range.lower) return Condition.CRITICAL_LOW;
-        if (value >= range.lower && value <= range.lower + tolerance) return Condition.WARNING_LOW;
-        if (value > range.upper) return Condition.CRITICAL_HIGH;
-        if (value >= range.upper - tolerance && value <= range.upper) return Condition.WARNING_HIGH;
+        if (value < range.lower){
+            return Condition.CRITICAL_LOW;
+        }
+        if (value >= range.lower && value <= range.lower + tolerance) {
+            return Condition.WARNING_LOW;
+        }
+        if (value > range.upper){
+            return Condition.CRITICAL_HIGH;
+        }
+        if (value >= range.upper - tolerance && value <= range.upper){
+            return Condition.WARNING_HIGH;
+        }
 
         return Condition.NORMAL;
     }
